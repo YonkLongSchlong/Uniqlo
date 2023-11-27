@@ -1,0 +1,257 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "John Doe",
+      "email": "doe@gmail.com",
+      "password": "12345qwert"
+    }
+  ],
+  "product": [
+    {
+      "id": 1,
+      "product_name": "Uniqlo Utility Jacket",
+      "color": "Brown",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Men",
+      "category": "Outerwear",
+      "price": 280,
+      "image": "https://im.uniqlo.com/global-cms/spa/res0af91964a8059316460cdd5095da3b05fr.jpg?220808"
+    },
+    {
+      "id": 2,
+      "product_name": "Utility Short Blouson",
+      "color": "Brown",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Men",
+      "category": "Outerwear",
+      "price": 380,
+      "image": "https://image.uniqlo.com/UQ/ST3/ph/imagesgoods/459592/item/phgoods_37_459592.jpg?width=494"
+    },
+    {
+      "id": 3,
+      "product_name": "Uniqlo Utility Jacket",
+      "color": "Black",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Men",
+      "category": "Outerwear",
+      "price": 380,
+      "image": "https://image.uniqlo.com/UQ/ST3/eu/imagesgoods/459592/item/eugoods_09_459592.jpg"
+    },
+    {
+      "id": 4,
+      "product_name": "Linen Blend Jacket",
+      "color": "Olive",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Outerwear",
+      "price": 293,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/456075/item/vngoods_56_456075.jpg?width=750"
+    },
+    {
+      "id": 5,
+      "product_name": "Double Face Long Coat",
+      "color": "Natural",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Outerwear",
+      "price": 2453,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/460927/item/vngoods_30_460927.jpg?width=750"
+    },
+    {
+      "id": 6,
+      "product_name": "PUFFTECH Quilted Vest (Warm Padded)",
+      "color": "Dark Brown",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Outerwear",
+      "price": 980,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/450451/item/vngoods_38_450451.jpg?width=750"
+    },
+    {
+      "id": 7,
+      "product_name": "Cotton Easy Shorts",
+      "color": "Blue",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Bottoms",
+      "price": 293,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/463089/item/vngoods_64_463089.jpg?width=750"
+    },
+    {
+      "id": 8,
+      "product_name": "Smart Ankle Pants",
+      "color": "Pink",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Bottoms",
+      "price": 784,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/464140/item/vngoods_10_464140.jpg?width=750"
+    },
+    {
+      "id": 9,
+      "product_name": "Corduroy Pleated Wide Pants",
+      "color": "Dark Brown",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Bottoms",
+      "price": 784,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/460541/item/vngoods_38_460541.jpg?width=750"
+    },
+    {
+      "id": 10,
+      "product_name": "JW Anderson Ribbed Long Sleeve Knit Dress",
+      "color": "Red",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Dresses & Skirts",
+      "price": 980,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462690/item/vngoods_17_462690.jpg?width=750"
+    },
+    {
+      "id": 11,
+      "product_name": "JW Anderson Color Mix High Neck Long Sleeve Dress",
+      "color": "Beige",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Dresses & Skirts",
+      "price": 980,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462689/item/vngoods_31_462689.jpg?width=750"
+    },
+    {
+      "id": 12,
+      "product_name": "Striped Cotton Long Sleeve Long Shirt Dress",
+      "color": "Blue",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Dresses & Skirts",
+      "price": 489,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462595/item/vngoods_63_462595.jpg?width=750"
+    },
+    {
+      "id": 13,
+      "product_name": "SUPIMA COTTON Crew Neck Short Sleeve T-Shirt",
+      "color": "Orange",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Tops",
+      "price": 293,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462672/item/vngoods_22_462672.jpg?width=750"
+    },
+    {
+      "id": 14,
+      "product_name": "Ribbed High Neck Long Sleeve Striped T-Shirt",
+      "color": "Black",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Tops",
+      "price": 391,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462912/item/vngoods_09_462912.jpg?width=750"
+    },
+    {
+      "id": 15,
+      "product_name": "HEATTECH Fleece Turtleneck Long Sleeve T-Shirt",
+      "color": "Blue",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Tops",
+      "price": 391,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/459793/item/vngoods_68_459793.jpg?width=750"
+    },
+    {
+      "id": 16,
+      "product_name": "Striped Short Sleeve T-Shirt",
+      "color": "Black",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Tops",
+      "price": 293,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/466864/item/vngoods_09_466864.jpg?width=7508"
+    },
+    {
+      "id": 17,
+      "product_name": "Studio Ghibli Round Mini Shoulder Bag",
+      "color": "Black",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Accessories",
+      "price": 293,
+      "image": "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/465875/item/goods_09_465875.jpg?width=750"
+    },
+    {
+      "id": 18,
+      "product_name": "JW Anderson Tote Bag",
+      "color": "Blue",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Accessories",
+      "price": 588,
+      "image": "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/462097/item/goods_67_462097.jpg?width=750"
+    },
+    {
+      "id": 19,
+      "product_name": "Adjustable Wool Bucket Hat",
+      "color": "Brown",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Accessories",
+      "price": 588,
+      "image": "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/461186/item/goods_34_461186.jpg?width=750"
+    },
+    {
+      "id": 20,
+      "product_name": "American Sleeve Cropped Bra Sleeveless Top",
+      "color": "Blue",
+      "size": ["S", "M", "L", "XL"],
+      "gender": "Women",
+      "category": "Innerwear & Underwear",
+      "price": 489,
+      "image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462713/item/vngoods_65_462713.jpg?width=750"
+    }
+  ],
+  "category": [
+    {
+      "id": 1,
+      "category_name": "Tops"
+    },
+    {
+      "id": 2,
+      "category_name": "Outerwear"
+    },
+    {
+      "id": 3,
+      "category_name": "Bottoms"
+    },
+    {
+      "id": 4,
+      "category_name": "Dresses & Skirts"
+    },
+    {
+      "id": 5,
+      "category_name": "Sport utility wear"
+    },
+    {
+      "id": 6,
+      "category_name": "Innerwear & Underwear"
+    },
+    {
+      "id": 7,
+      "category_name": "Accessories"
+    }
+  ],
+  "cart_items": [
+    {
+      "product_id": 7,
+      "product_size": "S",
+      "product_color": "Blue",
+      "product_gender": "Women",
+      "product_category": "Bottoms",
+      "product_price": 293,
+      "product_image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/463089/item/vngoods_64_463089.jpg?width=750",
+      "quantity": 1,
+      "id": 1
+    }
+  ],
+  "wishlist": [],
+  "orders": []
+}
