@@ -5,24 +5,26 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
+  TextInput,
 } from "react-native";
 import React, { useEffect, useReducer, useState } from "react";
 import CartProductCard from "../components/CartProductCard";
 import { Colors } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { API_URI } from "@env";
 
 const Cart = () => {
-  // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat(navigator.language, {
     minimumFractionDigits: 3,
   });
-  const uri = process.env.API_URI;
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const user = useSelector((state) => state.auth.value);
   const navigation = useNavigation();
   const [productList, setProductList] = useState([]);
-  const [shipping, setShipping] = useState(30);
+  const [shipping, setShipping] = useState(100);
+  const [address, setAddress] = useState(user.address);
+  const [fullName, setFullNam] = useState("");
+  const [phone, setPhone] = useState("");
   const [subTotal, setSubTotal] = useState(0);
   const [forcedUpdate, setForcedUpdate] = useState(false);
 
@@ -30,52 +32,69 @@ const Cart = () => {
     setForcedUpdate(!forcedUpdate);
   };
 
-  const toastFailOrder = () => {
-    ToastAndroid.show("There are no products to order", ToastAndroid.SHORT);
-  };
-
-  const handleOrder = () => {
-    if (productList.length > 0) {
-      fetch(uri + "/orders", {
+  const addOrder = async () => {
+    try {
+      await fetch(uri + "/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: user.id,
           product_list: productList,
+          address: address,
+          fullname: fullName,
+          phone: phone,
           order_total: subTotal + shipping,
+          createdDate: new Date().toString(),
         }),
-      })
-        .then(() => {
-          navigation.navigate("Order", {
-            productList: productList,
-          });
-        })
-        .catch((error) => {
-          throw error;
-        });
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const fetchItemsAndUpdateSubTotal = async () => {
+    const res = await fetch(uri + "/cart_items");
+    const data = await res.json();
+    if (data.length > 0) {
+      let sum = 0;
+      data.forEach((product) => {
+        sum = sum + product.product_price * product.quantity;
+      });
+      if (sum > 1000) {
+        setShipping(0);
+      } else {
+        setShipping(100);
+      }
+      setSubTotal(sum);
     } else {
-      toastFailOrder();
+      setSubTotal(0);
+    }
+    setProductList(data);
+  };
+
+  const handleOrder = () => {
+    if (productList.length > 0) {
+      if (address != "" && fullName != "" && phone != "") {
+        addOrder();
+        navigation.navigate("Order", {
+          productList: productList,
+        });
+      } else {
+        ToastAndroid.show(
+          "Please fill in all informations",
+          ToastAndroid.SHORT
+        );
+      }
+    } else {
+      ToastAndroid.show(
+        "There are no products in your cart",
+        ToastAndroid.SHORT
+      );
     }
   };
 
   useEffect(() => {
-    fetch("http://192.168.1.11:3000/cart_items")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.length > 0) {
-          let sum = 0;
-          data.forEach((product) => {
-            sum = sum + product.product_price * product.quantity;
-            setSubTotal(sum);
-          });
-        } else {
-          setSubTotal(0);
-        }
-        setProductList(data);
-      })
-      .catch((error) => {
-        throw error;
-      });
+    fetchItemsAndUpdateSubTotal();
   }, [forcedUpdate]);
 
   return (
@@ -90,6 +109,7 @@ const Cart = () => {
               key={product.id}
               setSubTotal={setSubTotal}
               forcedUpdateFunction={forcedUpdateFunction}
+              setShipping={setShipping}
             />
           ))}
         <View style={styles.cartInfoContainer}>
@@ -105,6 +125,38 @@ const Cart = () => {
               <Text style={styles.subtotalText}>
                 {formatter.format(subTotal)} VND
               </Text>
+            </View>
+            <View style={styles.separator}></View>
+            <View>
+              <Text style={styles.shippingText}>Your adress:</Text>
+              <TextInput
+                style={{
+                  fontFamily: "regular",
+                  fontSize: 12,
+                  paddingTop: 5,
+                }}
+                placeholder="Provide your address"
+                onChangeText={setAddress}
+                defaultValue={user.address}
+              />
+            </View>
+            <View style={styles.separator}></View>
+            <View>
+              <Text style={styles.shippingText}>Buyer name:</Text>
+              <TextInput
+                style={{ fontFamily: "regular", fontSize: 12, paddingTop: 5 }}
+                placeholder="Provide your full name"
+                onChangeText={setFullNam}
+              />
+            </View>
+            <View style={styles.separator}></View>
+            <View>
+              <Text style={styles.shippingText}>Phone:</Text>
+              <TextInput
+                style={{ fontFamily: "regular", fontSize: 12, paddingTop: 5 }}
+                placeholder="Provide your phone number"
+                onChangeText={setPhone}
+              />
             </View>
             <View style={styles.separator}></View>
             <View style={styles.lineContainer}>
@@ -195,6 +247,11 @@ const styles = StyleSheet.create({
   },
   lineContainer: {
     flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  addressCOntainer: {
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",

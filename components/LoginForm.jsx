@@ -12,10 +12,9 @@ import { useDispatch } from "react-redux";
 import { login } from "../features/login/loginReducer";
 import validateEmail from "../validations/validateEmail";
 import validatePassword from "../validations/validatePassword";
-import { API_URI } from "@env";
 
 const LoginForm = ({ isFocused }) => {
-  const uri = process.env.API_URI;
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userList, setUserList] = useState([]);
@@ -42,10 +41,10 @@ const LoginForm = ({ isFocused }) => {
               username: user.username,
               email: email,
               password: password,
+              address: user.address,
+              avatar: user.avatar,
             })
           );
-        } else {
-          toastLoginFail();
         }
       });
     } else {

@@ -5,7 +5,16 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import BottomTab from "./navigation/BottomTab";
 import { useFonts } from "expo-font";
 import { useCallback } from "react";
-import { Cart, Login, Order, ProductDetail, Register, Store } from "./screens";
+import {
+  Cart,
+  Login,
+  Order,
+  ProductDetail,
+  Register,
+  Store,
+  EditProfile,
+  OrderHistory,
+} from "./screens";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./constants/Colors";
 import { configureStore } from "@reduxjs/toolkit";
@@ -102,6 +111,26 @@ function App() {
             options={{
               headerBackVisible: true,
               headerTitle: "Order",
+              headerTitleStyle: { fontFamily: "medium", fontSize: 16 },
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="EditProfile"
+            component={EditProfile}
+            options={{
+              headerBackVisible: true,
+              headerTitle: "Edit Profile",
+              headerTitleStyle: { fontFamily: "medium", fontSize: 16 },
+              presentation: "modal",
+            }}
+          />
+          <Stack.Screen
+            name="OrderHistory"
+            component={OrderHistory}
+            options={{
+              headerBackVisible: true,
+              headerTitle: "Order History",
               headerTitleStyle: { fontFamily: "medium", fontSize: 16 },
               presentation: "modal",
             }}

@@ -10,21 +10,23 @@ import React, { useEffect, useState } from "react";
 import { CategoryHeader } from "../components";
 import { Colors } from "../constants/Colors";
 import { useSelector } from "react-redux";
-import { API_URI } from "@env";
-
 const Category = ({ navigation }) => {
-  const uri = process.env.API_URI;
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const [productList, setProductList] = useState([]);
   const gender = useSelector((state) => state.gender.value);
+
+  const fetchProductsByGender = async () => {
+    try {
+      const res = await fetch(uri + "/product?gender=" + gender);
+      const data = await res.json();
+      setProductList(data);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
-    fetch(uri + "/product?gender=" + gender)
-      .then((res) => res.json())
-      .then((data) => {
-        setProductList(data);
-      })
-      .catch((error) => {
-        throw error;
-      });
+    fetchProductsByGender();
   }, [gender]);
 
   let categories = [];

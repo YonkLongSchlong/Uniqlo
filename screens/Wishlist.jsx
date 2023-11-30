@@ -14,6 +14,7 @@ import { Colors } from "../constants/Colors";
 import { useIsFocused } from "@react-navigation/native";
 
 const Wishlist = ({ navigation }) => {
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const [wishList, setWishList] = useState([]);
   const [forcedUpdate, setForcedUpdate] = useState(false);
   const isFocused = useIsFocused();
@@ -21,8 +22,9 @@ const Wishlist = ({ navigation }) => {
   const forcedUpdateFunction = () => {
     setForcedUpdate(!forcedUpdate);
   };
+
   useEffect(() => {
-    fetch("http://192.168.1.11:3000/wishlist")
+    fetch(uri + "/wishlist")
       .then((res) => res.json())
       .then((data) => setWishList(data));
   }, [forcedUpdate, isFocused]);

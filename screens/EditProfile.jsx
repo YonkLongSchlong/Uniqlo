@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   ToastAndroid,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Colors } from "../constants/Colors";
@@ -12,24 +13,21 @@ import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import validateEmail from "../validations/validateEmail";
 import validatePassword from "../validations/validatePassword";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/login/loginReducer";
 
-const RegisterForm = () => {
+const EditProfile = () => {
   const uri = process.env.EXPO_PUBLIC_API_URL;
+  const user = useSelector((state) => state.auth.value);
   const navigation = useNavigation();
   const [isChecked, setChecked] = useState(false);
-  const [email, setEmail] = useState("");
-  const [userName, setUsername] = useState("");
-  const [address, setAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [userList, setUserList] = useState("");
-
-  const toastInvalidCredentials = () => {
-    ToastAndroid.show("Invalid credentials", ToastAndroid.SHORT);
-  };
-
-  const toastLoginFail = () => {
-    ToastAndroid.show("Email is already registered", ToastAndroid.SHORT);
-  };
+  const [check, setChecke] = useState(false);
+  const [email, setEmail] = useState(user.email);
+  const [userName, setUsername] = useState(user.username);
+  const [address, setAddress] = useState(user.address);
+  const [password, setPassword] = useState(user.password);
+  const [userList, setUserList] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch(uri + "/user")
@@ -40,40 +38,111 @@ const RegisterForm = () => {
       });
   }, []);
 
-  const handleRegister = () => {
+  const updateUserWithChecked = async () => {
+    try {
+      fetch(uri + "/user/" + user.id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userName,
+          email: email,
+          address: address,
+          password: password,
+          avatar: user.avarta,
+        }),
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updateUserWithUnchecked = async () => {
+    try {
+      fetch(uri + "/user/" + user.id, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: userName,
+          email: user.email,
+          address: address,
+          password: password,
+          avatar: user.avarta,
+        }),
+      });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const checkEmail = (userList) => {
+    userList.forEach((user) => {
+      console.log(user.email);
+      if (email !== user.email) {
+        setChecke(true);
+      } else {
+        setChecke(false);
+      }
+    });
+  };
+
+  const handleUpdate = () => {
     if (
       validateEmail(email) !== null &&
       validatePassword(password) !== null &&
-      address !== ""
+      address !== "" &&
+      userName !== null
     ) {
-      userList.forEach((user) => {
-        if (email !== user.email) {
-          fetch(uri + "/user", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
+      if (isChecked) {
+        checkEmail(userList);
+        if (check) {
+          updateUserWithChecked();
+          dispatch(
+            login({
+              id: user.id,
               username: userName,
               email: email,
-              address: address,
               password: password,
-              avatar: "",
-            }),
-          });
+              address: address,
+              avatar: user.avatar,
+            })
+          );
           navigation.goBack();
-        } else {
-          toastLoginFail();
         }
-      });
+        ToastAndroid.show("Email is already registered", ToastAndroid.SHORT);
+      } else {
+        updateUserWithUnchecked();
+        dispatch(
+          login({
+            id: user.id,
+            username: userName,
+            email: user.email,
+            password: password,
+            address: address,
+            avatar: user.avatar,
+          })
+        );
+        navigation.goBack();
+      }
     } else {
-      toastInvalidCredentials();
+      ToastAndroid.show("Invalid credentials", ToastAndroid.SHORT);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        You will receive the confirmation mail to your email address associated
-        with account. Please make sure to check your incoming email from us.
+      <View style={styles.logoContainer}>
+        <Image source={require("../assets/Rectangle4213.png")} />
+        <Image source={require("../assets/Rectangle4214.png")} />
+      </View>
+      <Text
+        style={{
+          fontFamily: "bold",
+          fontSize: 16,
+          paddingHorizontal: 20,
+          marginTop: 20,
+        }}
+      >
+        EDIT PROFILE
       </Text>
       <View style={styles.inputContainer}>
         <Text style={styles.header}>USERNAME*</Text>
@@ -81,6 +150,7 @@ const RegisterForm = () => {
           style={styles.usernameInput}
           placeholder="Enter your username"
           placeholderTextColor={Colors["light-grey"]}
+          value={userName}
           onChangeText={setUsername}
         />
 
@@ -89,14 +159,28 @@ const RegisterForm = () => {
           style={styles.emailInput}
           placeholder="Enter a valid email"
           placeholderTextColor={Colors["light-grey"]}
+          value={email}
+          editable={isChecked ? true : false}
           onChangeText={setEmail}
         />
+        <View style={{ flexDirection: "row", marginBottom: 20, gap: 10 }}>
+          <Checkbox
+            style={styles.checkbox}
+            value={isChecked}
+            onValueChange={setChecked}
+            color={isChecked ? "#4630EB" : undefined}
+          />
+          <Text style={[{ color: Colors["light-grey"] }, styles.text]}>
+            Change email ?
+          </Text>
+        </View>
 
         <Text style={styles.header}>ADDRESS*</Text>
         <TextInput
           style={styles.addressInput}
           placeholder="Enter your address"
           placeholderTextColor={Colors["light-grey"]}
+          value={address}
           onChangeText={setAddress}
         />
 
@@ -107,6 +191,7 @@ const RegisterForm = () => {
           placeholderTextColor={Colors["light-grey"]}
           textContentType="password"
           onChangeText={setPassword}
+          value={password}
           secureTextEntry={true}
         />
 
@@ -116,42 +201,12 @@ const RegisterForm = () => {
         </Text>
       </View>
       <View style={styles.separator}></View>
-      <View style={styles.termContainer}>
-        <Text style={styles.header}>MEMBERSHIP AGREEMENT*</Text>
 
-        <Text style={[{ color: Colors["light-grey"] }, styles.text]}>
-          By creating an account you agree to UNIQLO's privacy policy and term
-          of use
-        </Text>
-        <View style={styles.checkboxContainer}>
-          <Checkbox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={setChecked}
-            color={isChecked ? "#4630EB" : undefined}
-          />
-          <Text style={[{ color: Colors["light-grey"] }, styles.text]}>
-            I agree to the UNIQLO's TERMS OF USE and PRIVACY POLICY
-          </Text>
-        </View>
-        <Text
-          style={[
-            { textDecorationLine: "underline", marginTop: 20 },
-            styles.header,
-          ]}
-        >
-          TERMS OF USE
-        </Text>
-        <Text style={[{ textDecorationLine: "underline" }, styles.header]}>
-          PRIVACY POLICY
-        </Text>
-      </View>
       <View style={styles.registerBtnContainer}>
         <TouchableOpacity
           style={styles.btn}
-          disabled={isChecked ? false : true}
           onPress={() => {
-            handleRegister();
+            handleUpdate();
           }}
         >
           <Text
@@ -161,25 +216,7 @@ const RegisterForm = () => {
               color: Colors.white,
             }}
           >
-            REGISTER
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Text
-            style={[
-              {
-                textDecorationLine: "underline",
-                textAlign: "right",
-                fontSize: 12,
-                fontFamily: "semibold",
-              },
-            ]}
-          >
-            HAVE AN ACCOUNT ? LOGIN
+            UPDATE
           </Text>
         </TouchableOpacity>
       </View>
@@ -187,14 +224,30 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default EditProfile;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
-    padding: 20,
+    flex: 1,
   },
+  logoContainer: {
+    flexDirection: "row",
+    gap: 10,
+    backgroundColor: "#fff",
+    width: "100%",
+    height: 64,
+    alignItems: "center",
+    paddingLeft: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
 
+    elevation: 5,
+  },
   text: {
     fontFamily: "regular",
     fontSize: 12,
@@ -204,6 +257,9 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 15,
     gap: 2,
+    paddingHorizontal: 20,
+    padding: 20,
+    backgroundColor: "#fff",
   },
   header: {
     fontFamily: "semibold",
@@ -229,6 +285,16 @@ const styles = StyleSheet.create({
     borderColor: Colors["light-grey"],
     marginBottom: 20,
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginVertical: 10,
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  checkbox: {
+    padding: 7,
+  },
   addressInput: {
     backgroundColor: Colors["super-light-grey"],
     color: Colors.primary,
@@ -251,9 +317,10 @@ const styles = StyleSheet.create({
   },
   separator: {
     height: StyleSheet.hairlineWidth,
-    width: "100%",
+    width: "90%",
     backgroundColor: Colors["light-grey"],
     marginBottom: 20,
+    marginHorizontal: 20,
   },
   termContainer: {
     marginBottom: 15,
@@ -272,6 +339,7 @@ const styles = StyleSheet.create({
   },
   registerBtnContainer: {
     marginBottom: 15,
+    paddingHorizontal: 20,
   },
   btn: {
     alignItems: "center",

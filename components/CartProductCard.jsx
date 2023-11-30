@@ -13,58 +13,62 @@ import React, { useState } from "react";
 const CartProductCard = ({
   product,
   cartItemId,
-  // sumSubTotal,
   forcedUpdateFunction,
   setSubTotal,
+  setShipping,
 }) => {
-  // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat(navigator.language, {
     minimumFractionDigits: 3,
   });
-
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const [quantity, setQuantity] = useState(product.quantity);
 
-  function showToastDelCart() {
-    ToastAndroid.show("Deleted from cart", ToastAndroid.SHORT);
-  }
-
-  const sumSubTotal = () => {
-    fetch("http://192.168.1.11:3000/cart_items")
-      .then((res) => res.json())
-      .then((data) => {
-        let sum = 0;
-        data.forEach((product) => {
-          sum = sum + product.product_price * product.quantity;
-          setSubTotal(sum);
-        });
-      })
-      .catch((error) => {
-        throw error;
+  const sumSubTotal = async () => {
+    try {
+      const res = await fetch(uri + "/cart_items", {
+        method: "GET",
       });
-  };
-
-  const handleQuantity = (num) => {
-    fetch("http://192.168.1.11:3000/cart_items/" + cartItemId, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        quantity: num,
-      }),
-    })
-      .then(setQuantity(num))
-      .then(sumSubTotal())
-      .catch((error) => {
-        throw error;
+      const data = await res.json();
+      let sum = 0;
+      data.forEach((product) => {
+        sum = sum + product.product_price * product.quantity;
       });
-  };
-
-  const handleDelete = () => {
-    fetch("http://192.168.1.11:3000/cart_items/" + cartItemId, {
-      method: "DELETE",
-    }).catch((error) => {
+      if (sum > 1000) {
+        setShipping(0);
+      } else {
+        setShipping(100);
+      }
+      setSubTotal(sum);
+    } catch (error) {
       throw error;
-    });
-    showToastDelCart();
+    }
+  };
+
+  const handleQuantity = async (num) => {
+    try {
+      await fetch(uri + "/cart_items/" + cartItemId, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          quantity: num,
+        }),
+      });
+      setQuantity(num);
+      sumSubTotal();
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await fetch(uri + "/cart_items/" + cartItemId, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      throw error;
+    }
+    ToastAndroid.show("Deleted from cart", ToastAndroid.SHORT);
     sumSubTotal();
     forcedUpdateFunction();
   };
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors["super-light-grey"],
   },
-  productInfoContainer: {},
+  productInfoContainer: { width: 0, flexGrow: 1, flex: 1, paddingRight: 20 },
   productName: {
     fontFamily: "semibold",
     fontSize: 14,

@@ -11,23 +11,20 @@ import { Colors } from "../constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 const WishlistCard = ({ item, forcedUpdateFunction }) => {
-  // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat(navigator.language, {
     minimumFractionDigits: 3,
   });
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const navigation = useNavigation();
 
-  function showToastDelWishList() {
-    ToastAndroid.show("Deleted from wishlist", ToastAndroid.SHORT);
-  }
-
-  const handleDelete = () => {
-    fetch("http://192.168.1.11:3000/wishlist/" + item.id, {
+  const handleDelete = async () => {
+    await fetch(uri + "/wishlist/" + item.id, {
       method: "DELETE",
     });
-    showToastDelWishList();
+    ToastAndroid.show("Deleted from wishlist", ToastAndroid.SHORT);
     forcedUpdateFunction();
   };
+
   return (
     <TouchableOpacity
       onPress={() => {

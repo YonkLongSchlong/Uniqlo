@@ -8,6 +8,7 @@ import ProductCard from "./ProductCard";
 import CartProductCard from "./CartProductCard";
 import CheckoutCard from "./CheckoutCard";
 import RegisterForm from "./RegisterForm";
+import OrderCard from "./OrderCard";
 
 export {
   HomeHeader,
@@ -20,4 +21,5 @@ export {
   CartProductCard,
   CheckoutCard,
   RegisterForm,
+  OrderCard,
 };

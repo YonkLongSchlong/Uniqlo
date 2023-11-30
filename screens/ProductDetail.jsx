@@ -13,27 +13,17 @@ import { Colors } from "../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
-import { API_URI } from "@env";
 
 const ProductDetail = () => {
-  // FORMAT CURRENCY
   const formatter = new Intl.NumberFormat(navigator.language, {
     minimumFractionDigits: 3,
   });
-  const uri = process.env.API_URI;
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const route = useRoute();
   const user = useSelector((state) => state.auth.value);
   const { product } = route.params;
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
-
-  function showToastAddWishList() {
-    ToastAndroid.show("Added to wishlist", ToastAndroid.SHORT);
-  }
-
-  function showToastAddCart() {
-    ToastAndroid.show("Added to cart", ToastAndroid.SHORT);
-  }
 
   const handleSize = (string) => {
     setSize(string);
@@ -43,43 +33,51 @@ const ProductDetail = () => {
     setQuantity(num);
   };
 
-  const handleAddToCart = () => {
-    fetch(uri + "/cart_items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        product_id: product.id,
-        product_name: product.name,
-        product_size: size,
-        product_color: product.color,
-        product_gender: product.gender,
-        product_category: product.category,
-        product_price: product.price,
-        product_image: product.image,
-        quantity: quantity,
-      }),
-    });
-    showToastAddCart();
+  const handleAddToCart = async () => {
+    try {
+      await fetch(uri + "/cart_items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product_id: product.id,
+          product_name: product.product_name,
+          product_size: size,
+          product_color: product.color,
+          product_gender: product.gender,
+          product_category: product.category,
+          product_price: product.price,
+          product_image: product.image,
+          quantity: quantity,
+        }),
+      });
+      ToastAndroid.show("Added to cart", ToastAndroid.SHORT);
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const handleAddToWishList = () => {
-    fetch(uri + "/wishlist", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: product.id,
-        product_name: product.product_name,
-        size: ["S", "M", "L", "XL"],
-        color: product.color,
-        gender: product.gender,
-        category: product.category,
-        price: product.price,
-        image: product.image,
-      }),
-    });
-    showToastAddWishList();
+  const handleAddToWishList = async () => {
+    try {
+      await fetch(uri + "/wishlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: product.id,
+          product_name: product.product_name,
+          size: ["S", "M", "L", "XL"],
+          color: product.color,
+          gender: product.gender,
+          category: product.category,
+          price: product.price,
+          image: product.image,
+        }),
+      });
+      ToastAndroid.show("Added to wishlist", ToastAndroid.SHORT);
+    } catch (error) {
+      throw error;
+    }
   };
-  console.log(product);
+
   return (
     <ScrollView style={{ backgroundColor: Colors.white }}>
       <View style={styles.container}>

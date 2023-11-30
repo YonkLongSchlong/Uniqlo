@@ -12,13 +12,14 @@ import { useRoute } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 
 const Store = ({ navigation }) => {
+  const uri = process.env.EXPO_PUBLIC_API_URL;
   const route = useRoute();
   const { category } = route.params;
   const [product, setProduct] = useState([]);
   const gender = useSelector((state) => state.gender.value);
 
   useEffect(() => {
-    fetch("http://192.168.1.11:3000/product?gender=" + gender)
+    fetch(uri + "/product?gender=" + gender)
       .then((res) => {
         return res.json();
       })

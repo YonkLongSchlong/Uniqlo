@@ -8,6 +8,8 @@ import Store from "./Store";
 import Cart from "./Cart";
 import Register from "./Register";
 import Order from "./Order";
+import EditProfile from "./EditProfile";
+import OrderHistory from "./OrderHistory";
 
 export {
   HomeScreen,
@@ -20,4 +22,6 @@ export {
   Cart,
   Register,
   Order,
+  EditProfile,
+  OrderHistory,
 };
