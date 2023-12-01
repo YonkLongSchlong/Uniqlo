@@ -21,7 +21,6 @@ const EditProfile = () => {
   const user = useSelector((state) => state.auth.value);
   const navigation = useNavigation();
   const [isChecked, setChecked] = useState(false);
-  const [check, setChecke] = useState(false);
   const [email, setEmail] = useState(user.email);
   const [userName, setUsername] = useState(user.username);
   const [address, setAddress] = useState(user.address);
@@ -74,13 +73,27 @@ const EditProfile = () => {
     }
   };
 
-  const checkEmail = (userList) => {
+  const checkEmailAndUpdate = (userList) => {
+    let check = false;
     userList.forEach((user) => {
-      console.log(user.email);
       if (email !== user.email) {
-        setChecke(true);
+        check = true;
+      }
+      if (check) {
+        updateUserWithChecked();
+        dispatch(
+          login({
+            id: user.id,
+            username: userName,
+            email: email,
+            password: password,
+            address: address,
+            avatar: user.avatar,
+          })
+        );
+        navigation.navigate("Member");
       } else {
-        setChecke(false);
+        ToastAndroid.show("Email is already registered", ToastAndroid.SHORT);
       }
     });
   };
@@ -93,22 +106,7 @@ const EditProfile = () => {
       userName !== null
     ) {
       if (isChecked) {
-        checkEmail(userList);
-        if (check) {
-          updateUserWithChecked();
-          dispatch(
-            login({
-              id: user.id,
-              username: userName,
-              email: email,
-              password: password,
-              address: address,
-              avatar: user.avatar,
-            })
-          );
-          navigation.goBack();
-        }
-        ToastAndroid.show("Email is already registered", ToastAndroid.SHORT);
+        checkEmailAndUpdate(userList);
       } else {
         updateUserWithUnchecked();
         dispatch(

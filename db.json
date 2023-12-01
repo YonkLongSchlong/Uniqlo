@@ -1,11 +1,11 @@
 {
   "user": [
     {
-      "username": "yonk",
-      "email": "yonk@gmail.com",
-      "address": "New York",
+      "username": "John Doe",
+      "email": "doe@gmail.com",
+      "address": "33 Tran Van Hoang",
       "password": "12345qwert",
-      "avatar": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Funiqclo-clone-4218b949-1645-4609-b91e-5106c56652cf/ImagePicker/e9d22289-ca9c-49d0-8c8a-befd2fced42e.jpeg",
+      "avatar": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252Funiqclo-clone-4218b949-1645-4609-b91e-5106c56652cf/ImagePicker/f49f5e81-2a4e-4c26-af72-a751487de4f5.jpeg",
       "id": 1
     }
   ],
@@ -343,28 +343,16 @@
   ],
   "cart_items": [
     {
-      "product_id": 8,
-      "product_name": "Smart Ankle Pants",
-      "product_size": "S",
-      "product_color": "Pink",
+      "product_id": 7,
+      "product_name": "Cotton Easy Shorts",
+      "product_size": "XL",
+      "product_color": "Blue",
       "product_gender": "Women",
       "product_category": "Bottoms",
-      "product_price": 784,
-      "product_image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/464140/item/vngoods_10_464140.jpg?width=750",
-      "quantity": 1,
+      "product_price": 293,
+      "product_image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/463089/item/vngoods_64_463089.jpg?width=750",
+      "quantity": 6,
       "id": 1
-    },
-    {
-      "product_id": 14,
-      "product_name": "Ribbed High Neck Long Sleeve Striped T-Shirt",
-      "product_size": "S",
-      "product_color": "Black",
-      "product_gender": "Women",
-      "product_category": "Tops",
-      "product_price": 391,
-      "product_image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/462912/item/vngoods_09_462912.jpg?width=750",
-      "quantity": 1,
-      "id": 2
     }
   ],
   "wishlist": [],
@@ -449,6 +437,29 @@
       "order_total": 1175,
       "createdDate": "Thu Nov 30 2023 12:13:11 GMT+0700",
       "id": 3
+    },
+    {
+      "user_id": 1,
+      "product_list": [
+        {
+          "product_id": 8,
+          "product_name": "Smart Ankle Pants",
+          "product_size": "S",
+          "product_color": "Pink",
+          "product_gender": "Women",
+          "product_category": "Bottoms",
+          "product_price": 784,
+          "product_image": "https://image.uniqlo.com/UQ/ST3/vn/imagesgoods/464140/item/vngoods_10_464140.jpg?width=750",
+          "quantity": 3,
+          "id": 1
+        }
+      ],
+      "address": "New York",
+      "fullname": "Tran Tri Nhan",
+      "phone": "0767596132",
+      "order_total": 2352,
+      "createdDate": "Fri Dec 01 2023 10:24:21 GMT+0700",
+      "id": 4
     }
   ]
 }
